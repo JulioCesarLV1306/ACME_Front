@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Dashboard</title>
+    <link href="styles/tailwind.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+    <!-- Contenedor principal -->
+    <div class="flex">
+        <!-- Barra lateral -->
+        <div class="w-64 bg-gray-800 text-white min-h-screen flex flex-col">
+            <div class="p-4 text-xl font-bold text-center border-b border-gray-700">
+                ACME SAC.
+            </div>
+            <nav class="flex-1 px-4 py-2 space-y-1">
+                <a href="#"
+                    class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded">
+                    <i class="fas fa-th-large mr-3"></i> Dashboard
+                </a>
+                <a href="#"
+                    class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded">
+                    <i class="fas fa-layer-group mr-3"></i> Áreas
+                </a>
+                <a href="#"
+                    class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded">
+                    <i class="fas fa-handshake mr-3"></i> Proveedores
+                </a>
+                <a href="#"
+                    class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded">
+                    <i class="fas fa-chart-line mr-3"></i> Órdenes de compra
+                </a>
+                <a href="#"
+                    class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded">
+                    <i class="fas fa-history mr-3"></i> Historial
+                </a>
+                <a href="#" class="flex items-center px-4 py-2 bg-indigo-600 text-white rounded">
+                    <i class="fas fa-boxes mr-3"></i> Materiales
+                </a>
+                <a href="#"
+                    class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded">
+                    <i class="fas fa-book mr-3"></i> Documentación
+                </a>
+            </nav>
+        </div>
+        <div class="container mx-auto px-4 py-6">
+
+            <!-- Controles superiores -->
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Materiales</h2>
+                <div class="flex space-x-2">
+                    <button id="openModal" class="px-4 py-2 bg-blue-600 text-white rounded shadow">
+                        <i class="fas fa-plus"></i> Agregar Nuevo/a
+                    </button>
+                    <button class="px-4 py-2 bg-gray-700 text-white rounded shadow">
+                        <i class="fas fa-print"></i> Imprimir Reporte
+                    </button>
+                </div>
+            </div>
+
+            <!-- Barra de búsqueda y opciones -->
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <label for="search" class="block text-sm font-medium">Buscar:</label>
+                    <input type="text" id="search" class="px-3 py-2 border rounded"
+                        placeholder="Escriba para filtrar..." />
+                </div>
+                <div>
+                    <label for="itemsPerPage" class="block text-sm font-medium">Ver:</label>
+                    <input type="number" id="itemsPerPage" class="px-3 py-2 border rounded w-16" value="10" />
+                </div>
+            </div>
+
+            <!-- Tabla -->
+            <div class="bg-white p-6 rounded-lg shadow">
+                <table class="min-w-full border-collapse border border-gray-200">
+                    <thead>
+                        <tr>
+                            <th class="border border-gray-300 px-4 py-2">ID</th>
+                            <th class="border border-gray-300 px-4 py-2">Nombre</th>
+                            <th class="border border-gray-300 px-4 py-2">Descripción</th>
+                            <th class="border border-gray-300 px-4 py-2">Código Correlativo</th>
+                            <th class="border border-gray-300 px-4 py-2">Observación</th>
+                            <th class="border border-gray-300 px-4 py-2">Fecha de Creación</th>
+                            <th class="border border-gray-300 px-4 py-2">Estado</th>
+                            <th class="border border-gray-300 px-4 py-2">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="materialsTable">
+                        <!-- Los datos se insertarán aquí dinámicamente -->                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Ventana modal -->
+        <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
+                <h3 class="text-xl font-semibold mb-4">Agregar Nuevo Material</h3>
+
+                <!-- Aviso -->
+                <div class="flex bg-gray-800 items-center bg-teal-100 border-t-4 border-teal-500 rounded-b text-white px-4 py-3 mb-4 shadow-md"
+                    role="alert">
+                    <div class="flex-shrink-0">
+                        <svg class="h-6 w-6 text-teal-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 16h-1v-4h.01V8m-1 8h-.01M12 8c-.512 0-.935-.386-.993-.883L11 7c0-.552.455-1 .993-1 .551 0 .934.456.993 1L13 8c0 .551-.455 1-.993 1H12z" />
+                        </svg>
+                    </div>
+                    <div class="ml-3" >
+                        <p class="text-sm ">
+                            Estimado usuario: Los campos remarcados con <span class="text-red-600 font-bold" >*</span>
+                            son necesarios.
+                        </p>
+                    </div>
+                    <button class="ml-auto -mx-1 -my-1 text-teal-500 hover:text-teal-700" onclick="closeAlert()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Formulario -->
+                <form id="materialForm">
+                    <input type="hidden" id="materialId" />
+                    <div class="mb-4">
+                        <label for="nombre" class="block text-sm font-medium mb-1">Nombre <span
+                                class="text-red-600">*</span>:</label>
+                        <input type="text" id="nombre" class="w-full px-3 py-2 border rounded" required />
+                    </div>
+                    <div class="mb-4">
+                        <label for="descripcion" class="block text-sm font-medium mb-1">Descripción <span
+                                class="text-red-600">*</span>:</label>
+                        <input type="text" id="descripcion" class="w-full px-3 py-2 border rounded" required />
+                    </div>
+                    <div class="mb-4">
+                        <label for="codcorrelativo" class="block text-sm font-medium mb-1">Código Correlativo:</label>
+                        <input type="text" id="codcorrelativo" class="w-full px-3 py-2 border rounded" />
+                    </div>
+                    <div class="mb-4">
+                        <label for="observacion" class="block text-sm font-medium mb-1">Observación:</label>
+                        <input type="text" id="observacion" class="w-full px-3 py-2 border rounded" />
+                    </div>
+                    <div class="mb-4">
+                        <label for="fecha_creacion" class="block text-sm font-medium mb-1">Fecha de Creación:</label>
+                        <input type="date" id="fecha_creacion" class="w-full px-3 py-2 border rounded" />
+                    </div>
+                    <div class="mb-4">
+                        <label for="estado" class="block text-sm font-medium mb-1">Estado:</label>
+                        <input type="text" id="estado" class="w-full px-3 py-2 border rounded" />
+                    </div>
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" id="closeModal" class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <script src="scripts/main.js"></script>
+</body>
+
+</html>
